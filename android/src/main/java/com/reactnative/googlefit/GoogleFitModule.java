@@ -25,6 +25,7 @@ import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.LifecycleEventListener;
 import com.facebook.react.uimanager.IllegalViewOperationException;
 
+import java.util.concurrent.TimeUnit;
 
 public class GoogleFitModule extends ReactContextBaseJavaModule implements
 LifecycleEventListener {
@@ -113,7 +114,20 @@ LifecycleEventListener {
             errorCallback.invoke(e.getMessage());
         }
     }
-    
+
+    @ReactMethod
+    public void getHourlyStepCountSamples(double startDate,
+                                         double endDate,
+                                         Callback errorCallback,
+                                         Callback successCallback) {
+
+        try {
+            successCallback.invoke(mGoogleFitManager.getStepHistory().aggregateDataByDate((long)startDate, (long)endDate), TimeUnit.HOURS);
+        } catch (IllegalViewOperationException e) {
+            errorCallback.invoke(e.getMessage());
+        }
+    }
+
     @ReactMethod
     public void getDailyDistanceSamples(double startDate,
                                         double endDate,

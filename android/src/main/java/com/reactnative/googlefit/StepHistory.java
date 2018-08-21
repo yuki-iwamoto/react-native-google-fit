@@ -56,6 +56,9 @@ public class StepHistory {
     }
 
     public ReadableArray aggregateDataByDate(long startTime, long endTime) {
+        return this.aggregateDataByDate(startTime, endTime, TimeUnit.DAYS);
+    }
+    public ReadableArray aggregateDataByDate(long startTime, long endTime, TimeUnit unit) {
 
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
         dateFormat.setTimeZone(TimeZone.getDefault());
@@ -172,13 +175,13 @@ public class StepHistory {
                             ,
                             //DataType.AGGREGATE_STEP_COUNT_DELTA
                             aggregateType)
-                        .bucketByTime(12, TimeUnit.HOURS) // Half-day resolution
+                        .bucketByTime(1, unit) // Half-day resolution
                         .setTimeRange(startTime, endTime, TimeUnit.MILLISECONDS)
                         .build();
             } else {
                 readRequest = new DataReadRequest.Builder()
                         .read(dataSource)
-                        //.bucketByTime(12, TimeUnit.HOURS) // Half-day resolution
+                        .bucketByTime(1, unit) // Half-day resolution
                         .setTimeRange(startTime, endTime, TimeUnit.MILLISECONDS)
                         .build();
             }
