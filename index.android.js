@@ -89,7 +89,8 @@ class RNGoogleFit {
                   callback(false, res.map(function(dev) {
                           let obj = {};
                           obj.source = dev.source.appPackage + ((dev.source.stream) ? ":" + dev.source.stream : "");
-                          obj.steps = this.buildDailySteps(dev.steps);
+//                          obj.steps = this.buildDailySteps(dev.steps);
+                          obj.steps = dev.steps;
                           return obj;
                       }, this)
                   );
